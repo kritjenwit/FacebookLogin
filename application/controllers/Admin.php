@@ -25,7 +25,12 @@ class Admin extends CI_Controller
         $this->load->view('templates/footer', $data);
     }
 
-    public function edit($id){
-
+    public function update(){
+        if(!$this->session->userdata('logged')){
+            redirect('login');
+        }
+        $id = $this->input->post('id');
+        $this->user_model->update_user($id);
+        redirect('profile');
     }
 }

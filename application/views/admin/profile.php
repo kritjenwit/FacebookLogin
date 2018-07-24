@@ -21,7 +21,7 @@
                 <a class="btn btn-primary" href="<?php echo $this->session->userdata('link') ?>">Go to Facebook</a>
             </div>
         <?php else: ?>
-            <?php echo form_open('operation/update') ?>
+            <?php echo form_open('admin/update') ?>
                 <input type="hidden" name="id"  value="<?php echo $this->session->userdata('id') ?>">
                 <div class="form-group">
                     <label for="">Name</label>
@@ -31,10 +31,7 @@
                     <label for="">Email</label>
                     <input type="text" name="email" value="<?php echo $this->session->userdata('email') ?>" class="form-control">
                 </div>
-                <div class="form-group">
-                    <label for="">Password</label>
-                    <input type="password" name="email" value="<?php echo $this->session->userdata('password') ?>" class="form-control">
-                </div>
+
                 <input class="btn btn-warning" type="submit" value="Update" name="update">
             </form>
         <?php endif; ?>

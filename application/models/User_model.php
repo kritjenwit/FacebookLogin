@@ -54,4 +54,25 @@ class User_model extends CI_Model
             return false;
         }
     }
+
+    public function update_user($id){
+        $data = array(
+            'name' => $this->input->post('name'),
+            'email' => $this->input->post('email'),
+        );
+        $this->db->set('updated_at', 'NOW()', FALSE);
+        $this->db->where('id', $id);
+        if($this->db->update('users', $data)){
+
+            $user_data = array(
+                'name' => $this->input->post('name'),
+                'email' => $this->input->post('email'),
+                'picture' => $this->session->userdata('picture'),
+            );
+        }
+
+        $this->session->set_userdata($user_data);
+
+        redirect('profile');
+    }
 }
