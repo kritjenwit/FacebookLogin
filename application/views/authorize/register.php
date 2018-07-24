@@ -8,6 +8,11 @@
                 </div>
             <?php endif; ?>
             <?php  echo form_open_multipart('/register')?>
+
+                <div class="form-group">
+                    <label for="">Email</label>
+                    <input type="text" name="name" class="form-control" placeholder="eg. John Doe" minle>
+                </div>
                 <div class="form-group">
                     <label for="">Email</label>
                     <input type="text" name="email" class="form-control" placeholder="eg. example@example.com" minle>

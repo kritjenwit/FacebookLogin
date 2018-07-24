@@ -7,6 +7,16 @@
                     <?php echo validation_errors() ?>
                 </div>
             <?php endif; ?>
+            <?php if($this->session->flashdata('user_registered')): ?>
+                <div class="alert alert-success">
+                    <?php echo $this->session->flashdata('user_registered') ?>
+                </div>
+            <?php endif; ?>
+            <?php if($this->session->flashdata('login_failed')): ?>
+                <div class="alert alert-danger">
+                    <?php echo $this->session->flashdata('login_failed') ?>
+                </div>
+            <?php endif; ?>
             <?php  echo form_open('/login')?>
             <div class="form-group">
                 <label for="">Email</label>

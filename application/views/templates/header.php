@@ -30,9 +30,15 @@
                     <li class="nav-item active">
                         <a class="nav-link" href="<?php echo base_url() ?>profile"><?php echo $this->session->userdata('name') ?></a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="<?php echo base_url() ?>profile"><img style="width:33px" class="rounded-circle" src="<?php echo $this->session->userdata('picture') ?>" alt=""></a>
-                    </li>
+                    <?php if($this->session->userdata('link')): ?>
+                        <li class="nav-item">
+                            <a class="nav-link" href="<?php echo base_url() ?>profile"><img style="width:33px" class="rounded-circle" src="<?php echo $this->session->userdata('picture') ?>" alt=""></a>
+                        </li>
+                    <?php else: ?>
+                        <li class="nav-item">
+                            <a class="nav-link" href="<?php echo base_url() ?>profile"><img style="width:33px" class="rounded-circle" src="<?php echo base_url()?>assets/images/profile/<?php echo $this->session->userdata('picture') ?>" alt=""></a>
+                        </li>
+                    <?php endif; ?>
                     <li class="nav-item active">
                         <a class="nav-link" href="<?php echo base_url() ?>logout">Logout</a>
                     </li>

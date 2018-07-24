@@ -32,15 +32,36 @@ class Authorize extends CI_Controller
         $data['title'] = 'Login';
 
         # ------ Validation from login form -----------------
-        $this->form_validation->set_rules('email','Email','required');
+        $this->form_validation->set_rules('email','Email','required|valid_email');
         $this->form_validation->set_rules('password','Password','required');
         if($this->form_validation->run() === FALSE){
             $this->load->view('templates/header', $data);
             $this->load->view('authorize/login', $data);
             $this->load->view('templates/footer', $data);
         }else{
-            $this->user_model->insert_user();
-            redirect('/login');
+
+            $email = $this->input->post('email');
+            $password = md5($this->input->post('password'));
+
+            # --- Login user ---
+            $user_id = $this->user_model->login($email,$password);
+            if($user_id){
+                // create session
+                $user = $this->user_model->get_user($email);
+                $user_data = array(
+                    'id' => $user['id'],
+                    'name' => $user['name'],
+                    'email' => $user['email'],
+                    'password' => $user['password'],
+                    'picture' => $user['picture'],
+                    'logged' => 1
+                );
+                $this->session->set_userdata($user_data);
+                redirect('/');
+            }else{
+                $this->session->set_flashdata('login_failed',  'You are failed to login. Please try again');
+                redirect('/login');
+            }
         }
     }
 
@@ -149,7 +170,8 @@ class Authorize extends CI_Controller
     public function register(){
         $data['title'] = 'Register';
 
-        $this->form_validation->set_rules('email','Email','required');
+        $this->form_validation->set_rules('name','Name','required');
+        $this->form_validation->set_rules('email','Email','required|valid_email|callback_check_email_exists');
         $this->form_validation->set_rules('password','Password','required');
         if($this->form_validation->run() === FALSE){
             $this->load->view('templates/header', $data);
@@ -175,7 +197,17 @@ class Authorize extends CI_Controller
 
 
             $this->user_model->create_user($profile_image);
+            $this->session->set_flashdata('user_registered','You are now registered');
             redirect('/login');
+        }
+    }
+
+    function check_email_exists($email){
+        $this->form_validation->set_message('check_email_exists', 'That email is taken. Please choose a different one');
+        if($this->user_model->check_email_exists($email)){
+            return true;
+        }else{
+            return false;
         }
     }
 
@@ -183,4 +215,6 @@ class Authorize extends CI_Controller
         $this->session->sess_destroy();
         redirect('/');
     }
+
+
 }

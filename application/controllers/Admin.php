@@ -24,4 +24,8 @@ class Admin extends CI_Controller
         $this->load->view('admin/profile', $data);
         $this->load->view('templates/footer', $data);
     }
+
+    public function edit($id){
+
+    }
 }
