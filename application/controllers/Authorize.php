@@ -26,7 +26,7 @@ class Authorize extends CI_Controller
         $helper = $fb->getRedirectLoginHelper();
 
         $permissions = ['email','user_likes','user_link']; // Optional permissions
-        $loginUrl = $helper->getLoginUrl('https://cb04ff4c.ngrok.io/callback', $permissions);
+        $loginUrl = $helper->getLoginUrl('https://1db515db.ngrok.io/callback', $permissions);
 
         $data['url'] = '<a href="' . htmlspecialchars($loginUrl) . '">Log in with Facebook!</a>';
 
