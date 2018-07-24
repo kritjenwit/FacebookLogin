@@ -29,10 +29,19 @@ class Authorize extends CI_Controller
         $loginUrl = $helper->getLoginUrl('https://1db515db.ngrok.io/callback', $permissions);
 
         $data['url'] = '<a href="' . htmlspecialchars($loginUrl) . '">Log in with Facebook!</a>';
+        $data['title'] = 'Login';
 
-        $this->load->view('templates/header', $data);
-        $this->load->view('authorize/login', $data);
-        $this->load->view('templates/footer', $data);
+        # ------ Validation from login form -----------------
+        $this->form_validation->set_rules('email','Email','required');
+        $this->form_validation->set_rules('password','Password','required');
+        if($this->form_validation->run() === FALSE){
+            $this->load->view('templates/header', $data);
+            $this->load->view('authorize/login', $data);
+            $this->load->view('templates/footer', $data);
+        }else{
+            $this->user_model->insert_user();
+            redirect('/login');
+        }
     }
 
     public function callback(){
@@ -135,6 +144,39 @@ class Authorize extends CI_Controller
 
         $this->session->set_userdata($user_data);
         redirect('/');
+    }
+
+    public function register(){
+        $data['title'] = 'Register';
+
+        $this->form_validation->set_rules('email','Email','required');
+        $this->form_validation->set_rules('password','Password','required');
+        if($this->form_validation->run() === FALSE){
+            $this->load->view('templates/header', $data);
+            $this->load->view('authorize/register', $data);
+            $this->load->view('templates/footer', $data);
+        }else{
+            # ----- Upload image ------
+            $config['upload_path'] = './assets/images/profile';
+            $config['allowed_types'] = 'gif|jpg|png';
+            $config['max_size'] = '2048';
+            $config['max_width'] = '500';
+            $config['max_height'] = '500';
+            $this->load->library('upload', $config);
+
+            # --- Check if it upload or not ---
+            if(!$this->upload->do_upload()){
+                $errors = array('error' => $this->upload->display_errors());
+                $profile_image = 'noimage.jpg';
+            }else{
+                $data = array('upload_data' => $this->upload->data());
+                $profile_image = $_FILES['userfile']['name'];
+            }
+
+
+            $this->user_model->create_user($profile_image);
+            redirect('/login');
+        }
     }
 
     public function logout(){

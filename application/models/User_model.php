@@ -20,4 +20,15 @@ class User_model extends CI_Model
         $query = $this->db->get_where('users', array('id'=>$email));
         return $query->row_array();
     }
+
+    public function create_user($profile_image){
+        $email = $this->input->post('email');
+        $password = $this->input->post('password');
+        $data = array(
+            'email' => $email,
+            'password' => $password,
+            'picture' => $profile_image,
+        );
+        $this->db->insert('users', $data);
+    }
 }

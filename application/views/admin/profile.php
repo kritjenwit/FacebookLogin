@@ -17,14 +17,17 @@
                 <a class="btn btn-primary" href="<?php echo $this->session->userdata('link') ?>">Go to Facebook</a>
             </div>
         <?php else: ?>
-            <div class="form-group">
-                <label for="">Email</label>
-                <input type="text" name="email" id="" value="<?php echo $this->session->userdata('email') ?>">
-            </div>
-            <div class="form-group">
-                <label for="">Password</label>
-                <input type="password" name="email" id="" value="<?php echo $this->session->userdata('password') ?>">
-            </div>
+            <?php echo form_open('operation/update') ?>
+                <div class="form-group">
+                    <label for="">Email</label>
+                    <input type="text" name="email" id="" value="<?php echo $this->session->userdata('email') ?>" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="">Password</label>
+                    <input type="password" name="email" id="" value="<?php echo $this->session->userdata('password') ?>" class="form-control">
+                </div>
+                <input class="btn btn-warning" type="submit" value="Update" name="update">
+            </form>
         <?php endif; ?>
     </div>
 </div>

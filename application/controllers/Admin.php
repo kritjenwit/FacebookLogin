@@ -16,6 +16,9 @@ class Admin extends CI_Controller
         $this->load->view('templates/footer', $data);
     }
     public function profile(){
+        if(!$this->session->userdata('logged')){
+            redirect('/login');
+        }
         $data['title'] = 'Profile';
         $this->load->view('templates/header', $data);
         $this->load->view('admin/profile', $data);
