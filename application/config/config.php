@@ -23,7 +23,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'https://1db515db.ngrok.io';
+$config['base_url'] = 'https://c1d2dfb9.ngrok.io/facebook/facebook-login2';
 
 /*
 |--------------------------------------------------------------------------
